@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Universities.Data.Models;
 using Universities.Models.Identity;
+using Universities.Services.Identity;
 
 namespace Universities.Controllers
 {
@@ -16,13 +17,16 @@ namespace Universities.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly AppSettings _appSettings;
+        private readonly IIdentityServices _identityService;
 
         public IdentityController(
             UserManager<User> userManager,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings,
+            IIdentityServices identityService)
         {
             this._userManager = userManager;
             this._appSettings = appSettings.Value;
+            this._identityService = identityService;
         }
 
         [Route(nameof(Register))]
@@ -61,21 +65,7 @@ namespace Universities.Controllers
                 return this.Unauthorized("The entered password doesn't correspond with the given username");
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(this._appSettings.Secret);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encryptedToken = tokenHandler.WriteToken(token);
-
+            var encryptedToken = this._identityService.GetEncryptedJWT(user, this._appSettings.Secret);
             return encryptedToken;
         }
     }

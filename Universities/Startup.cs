@@ -12,6 +12,7 @@ using System.Text;
 using Universities.Data;
 using Universities.Data.Models;
 using Universities.Extensions;
+using Universities.Services.Identity;
 
 namespace Universities
 {
@@ -66,6 +67,7 @@ namespace Universities
                     };
                 });
 
+            services.AddTransient<IIdentityServices, IdentityServices>();
             services.AddControllers();
         }
 
