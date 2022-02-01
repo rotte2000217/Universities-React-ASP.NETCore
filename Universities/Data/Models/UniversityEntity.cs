@@ -1,9 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Universities.Data.Models
 {
     public class UniversityEntity
     {
+        public UniversityEntity()
+        {
+            this.Users = new HashSet<User>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -20,5 +26,7 @@ namespace Universities.Data.Models
         public string StateProvince { get; set; }
 
         public string WebPage { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace Universities.Data.Models
             this.Universities = new HashSet<UniversityEntity>();
         }
 
-        public virtual HashSet<UniversityEntity> Universities { get; set; }
+        public virtual ICollection<UniversityEntity> Universities { get; set; }
     }
 }
