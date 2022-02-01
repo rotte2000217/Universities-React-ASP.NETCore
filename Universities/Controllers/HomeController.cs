@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Universities.Extensions;
 using Universities.Services.University;
 
 namespace Universities.Controllers
@@ -18,6 +19,7 @@ namespace Universities.Controllers
         public JsonResult Get()
         {
             var recentUnis = this._universitiesService.GetRecentlyAddedUniversities(10);
+            var userId = this.User.GetId();
 
             return new JsonResult(recentUnis);
         }

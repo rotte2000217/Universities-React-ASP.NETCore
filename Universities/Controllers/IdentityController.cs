@@ -49,24 +49,24 @@ namespace Universities.Controllers
         }
 
         [Route(nameof(Login))]
-        public async Task<ActionResult<string>> Login(LoginRequestModel model)
+        public async Task<JsonResult> Login(LoginRequestModel model)
         {
             var user = await this._userManager.FindByNameAsync(model.UserName);
 
             if (user == null)
             {
-                return this.BadRequest("User not found");
+                return new JsonResult(BadRequest("User not found"));
             }
 
             var isPasswordValid = await this._userManager.CheckPasswordAsync(user, model.Password);
 
             if (!isPasswordValid)
             {
-                return this.Unauthorized("The entered password doesn't correspond with the given username");
+                return new JsonResult(Unauthorized("The entered password doesn't correspond with the given username"));
             }
 
             var encryptedToken = this._identityService.GetEncryptedJWT(user, this._appSettings.Secret);
-            return encryptedToken;
+            return new JsonResult(Ok(encryptedToken));
         }
     }
 }

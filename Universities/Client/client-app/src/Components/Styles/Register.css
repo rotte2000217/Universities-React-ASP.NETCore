@@ -1,0 +1,28 @@
+@media all and (min-width: 480px) {
+    .Register {
+      padding: 60px 0;
+    }
+  
+    .Register form {
+      margin: 0 auto;
+      max-width: 320px;
+    }
+
+    h1{
+      text-align:center;
+    }
+    h3{
+      text-align:center;
+      margin:10px;
+      color: blue;
+    }
+    p{
+      padding-bottom:10px;
+      text-align:left;
+      color: grey;
+    }
+    button{
+      margin-top:20px;
+      width:100%;
+    }
+  }
