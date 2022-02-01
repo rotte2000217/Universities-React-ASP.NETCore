@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Universities.Data;
 using Universities.Data.Models;
 using Universities.Extensions;
 using Universities.Services.Identity;
+using Universities.Services.University;
 
 namespace Universities
 {
@@ -68,16 +68,17 @@ namespace Universities
                 });
 
             services.AddTransient<IIdentityServices, IdentityServices>();
+            services.AddTransient<IUniversitiesService, UniversitiesService>();
             services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseMigrationsEndPoint();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
+            }
 
             app.UseRouting();
 

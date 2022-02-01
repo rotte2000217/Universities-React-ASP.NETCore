@@ -1,17 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using System.Net;
-using Universities.Models;
+using System.Threading.Tasks;
+using Universities.Services.University;
 
 namespace Universities.Controllers
 {
     public class HomeController : ApiController
     {
-        [Authorize]
-        public IActionResult Get()
+        private readonly IUniversitiesService _universitiesService;
+
+        public HomeController(IUniversitiesService universitiesService)
         {
-            return Ok("Success");
+            this._universitiesService = universitiesService;
+        }
+
+        [Authorize]
+        public JsonResult Get()
+        {
+            var recentUnis = this._universitiesService.GetRecentlyAddedUniversities(10);
+
+            return new JsonResult(recentUnis);
         }
     }
 }

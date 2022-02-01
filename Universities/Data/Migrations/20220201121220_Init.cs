@@ -60,39 +60,39 @@ namespace Universities.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserUniversityMap",
+                name: "UniversityEntityUser",
                 columns: table => new
                 {
-                    UniversityId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UniversitiesId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserUniversityMap", x => new { x.UniversityId, x.UserId });
+                    table.PrimaryKey("PK_UniversityEntityUser", x => new { x.UniversitiesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_UserUniversityMap_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UniversityEntityUser_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserUniversityMap_Universities_UniversitiesId",
-                        column: x => x.UniversityId,
+                        name: "FK_UniversityEntityUser_Universities_UniversitiesId",
+                        column: x => x.UniversitiesId,
                         principalTable: "Universities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserUniversityMap_UserId",
-                table: "UserUniversityMap",
-                column: "UserId");
+                name: "IX_UniversityEntityUser_UsersId",
+                table: "UniversityEntityUser",
+                column: "UsersId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserUniversityMap");
+                name: "UniversityEntityUser");
 
             migrationBuilder.DropTable(
                 name: "Universities");
