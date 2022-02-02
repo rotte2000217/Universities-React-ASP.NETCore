@@ -1,20 +1,16 @@
-import React,{Component} from 'react';
+import React,{useEffect, useState } from 'react';
 import endpoints from "../ApiEndpoints";
 
-export class Home extends Component{
-    constructor(props) {
-        super(props);
-  
-        this.state = {
-          data : []
-        };
-      }
+export default function Home(props){
       
-    componentWillMount() {
-        this.renderMyData();
-    }
+    const [lock, setLock] = useState(0);
+    const [universities, setUniversities] = useState([]);
 
-    renderMyData(){
+    useEffect (() => {
+        renderMyData();
+    }, [lock])
+
+    function renderMyData(){
         fetch(endpoints.homePage, {
             method: 'GET',
             headers: new Headers(
@@ -25,24 +21,24 @@ export class Home extends Component{
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                this.setState({ data : responseJson })
-            }).catch((error) => {
+                setUniversities(responseJson);
+                return responseJson;
+            })
+            .catch((error) => {
               console.error(error);
             });
     }
-
-    render(){
+        let selectedCountry = props.selectedCountry;
         return(
             <div className='mt-5 d-flex justify-content-left'>
                 <div>
                     <p>
-                        {this.props.selectedCountry}
+                        {selectedCountry}
                     </p>
                     {
-                        this.state.data.map(x => {return <p>{x.country} - {x.name}</p>})
+                        universities.map(x => {return <p>{x.country} - {x.name}</p>})
                     }
                 </div>
             </div>
-        )
-    }
+        );
 }

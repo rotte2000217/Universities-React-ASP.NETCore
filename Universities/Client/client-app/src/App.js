@@ -1,6 +1,6 @@
 import './App.css';
 import React,{useEffect, useState} from 'react';
-import {Home} from './Components/Home'
+import Home from './Components/Home'
 import {Watchlist} from './Components/Watchlist'
 import Navigation from './Components/Navigation'
 import Login from './Components/Login'
@@ -40,7 +40,7 @@ function App() {
       render={() =>
         isUserLoggedIn === "true"
         ? (<>
-          <Autocomplete selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} suggestions={wordsSuggestions}/>
+          <Autocomplete selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} wordsSuggestions={wordsSuggestions}/>
           <Home selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
           </>)
         : (<Redirect to="/login" />)}/>

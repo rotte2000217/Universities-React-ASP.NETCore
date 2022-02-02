@@ -1,18 +1,14 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import './Styles/Autocomplete.css'
 
-class Autocomplete extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeSuggestion: 0,
-      filteredSuggestions: [],
-      showSuggestions: false,
-      userInput: ""
-    };
-  }
-  onChange = e => {
-    const { suggestions } = this.props;
+export default function Autocomplete(props) {
+  const [activeSuggestion, setActiveSuggestion] = useState(0);
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [userInput, setUserInput] = useState("");
+
+  function onChange(e) {
+    const suggestions = props.wordsSuggestions;
     const userInput = e.currentTarget.value;
 
     const filteredSuggestions = suggestions.filter(
@@ -20,59 +16,39 @@ class Autocomplete extends Component {
         suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
     );
 
-    this.setState({
-      activeSuggestion: 0,
-      filteredSuggestions,
-      showSuggestions: true,
-      userInput: e.currentTarget.value
-    });
+    setActiveSuggestion(0);
+    setFilteredSuggestions(filteredSuggestions);
+    setShowSuggestions(true);
+    setUserInput(e.currentTarget.value);
   };
 
-  onClick = e => {
-    this.setState({
-      activeSuggestion: 0,
-      filteredSuggestions: [],
-      showSuggestions: false,
-      userInput: e.currentTarget.innerText
-    });
+  function onClick(e){
+    setActiveSuggestion(0);
+    setFilteredSuggestions([]);
+    setShowSuggestions(false);
+    setUserInput(e.currentTarget.innerText);
+    props.setSelectedCountry(e.currentTarget.innerText);
   };
 
-  onKeyDown = e => {
-    const { activeSuggestion, filteredSuggestions } = this.state;
-
+  function onKeyDown(e) {
     if (e.keyCode === 13) {
-      this.setState({
-        activeSuggestion: 0,
-        showSuggestions: false,
-        userInput: filteredSuggestions[activeSuggestion]
-      });
+        setActiveSuggestion(0);
+        setShowSuggestions(false);
+        setUserInput(filteredSuggestions[activeSuggestion]);
     } else if (e.keyCode === 38) {
       if (activeSuggestion === 0) {
         return;
       }
-      this.setState({ activeSuggestion: activeSuggestion - 1 });
+      setActiveSuggestion(activeSuggestion - 1);
     }
     // User pressed the down arrow, increment the index
     else if (e.keyCode === 40) {
       if (activeSuggestion - 1 === filteredSuggestions.length) {
         return;
       }
-      this.setState({ activeSuggestion: activeSuggestion + 1 });
+      setActiveSuggestion(activeSuggestion + 1);
     }
   };
-
-  render() {
-    const {
-      onChange,
-      onClick,
-      onKeyDown,
-      state: {
-        activeSuggestion,
-        filteredSuggestions,
-        showSuggestions,
-        userInput
-      }
-    } = this;
 
     let suggestionsListComponent;
     if (showSuggestions && userInput) {
@@ -114,11 +90,6 @@ class Autocomplete extends Component {
             value={userInput}
           />
           {suggestionsListComponent}
-          {this.props.setSelectedCountry()}
         </Fragment>
       );
     }
-  }
-  
-  export default Autocomplete;
-    
