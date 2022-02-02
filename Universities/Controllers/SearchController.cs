@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using Universities.Services.University;
 
 namespace Universities.Controllers
@@ -19,6 +20,20 @@ namespace Universities.Controllers
             {
                 var countries = this._universityServices.GetAllCountryNames();
                 return new JsonResult(Ok(countries));
+            }
+            catch (System.Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
+        }
+
+        [Route(nameof(GetUniversitiesByCountry))]
+        public JsonResult GetUniversitiesByCountry(string country)
+        {
+            try
+            {
+                var universities = this._universityServices.GetByCountryAsync(country);
+                return new JsonResult(Ok(universities));
             }
             catch (System.Exception e)
             {

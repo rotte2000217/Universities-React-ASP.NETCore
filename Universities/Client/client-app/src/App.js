@@ -14,6 +14,7 @@ function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState((localStorage.getItem('token') === null) ? 'false' : 'true');
   const [wordsSuggestions, setWordsSuggestions] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [universitiesForSelectedCountry, setUniversitiesForSelectedCountry] = useState([]);
 
   useEffect(async() => {
       const array = await getWords();
@@ -40,8 +41,8 @@ function App() {
       render={() =>
         isUserLoggedIn === "true"
         ? (<>
-          <Autocomplete selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} wordsSuggestions={wordsSuggestions}/>
-          <Home selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
+          <Autocomplete universitiesForSelectedCountry={universitiesForSelectedCountry} setUniversitiesForSelectedCountry={setUniversitiesForSelectedCountry} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} wordsSuggestions={wordsSuggestions}/>
+          <Home universitiesForSelectedCountry={universitiesForSelectedCountry} setUniversitiesForSelectedCountry={setUniversitiesForSelectedCountry} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
           </>)
         : (<Redirect to="/login" />)}/>
 

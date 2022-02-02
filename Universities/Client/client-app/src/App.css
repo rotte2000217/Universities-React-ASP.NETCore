@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+.h3-recent{
+  color:black;
+  text-align:center;
+}
+
+.h4-recent-data{
+  margin-left:20px;
+  padding:0px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

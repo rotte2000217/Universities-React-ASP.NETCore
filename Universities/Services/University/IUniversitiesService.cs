@@ -13,6 +13,8 @@ namespace Universities.Services.University
 
         public Task<UniversityEntity> GetByNameAsync(string name);
 
+        public IEnumerable<UniversityEntity> GetByCountryAsync(string country);
+
         /// <summary>
         /// Gets recently added universities by specified count (Max 10).
         /// </summary>

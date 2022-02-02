@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import './Styles/Autocomplete.css'
+import endpoints from "../ApiEndpoints";
 
 export default function Autocomplete(props) {
   const [activeSuggestion, setActiveSuggestion] = useState(0);
@@ -28,7 +29,23 @@ export default function Autocomplete(props) {
     setShowSuggestions(false);
     setUserInput(e.currentTarget.innerText);
     props.setSelectedCountry(e.currentTarget.innerText);
+    setUniverities(e.currentTarget.innerText);
   };
+
+  function setUniverities(country){
+        fetch(`${endpoints.getUniversitiesByCountry}?country=${country}`, {
+            method: 'GET'
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log('UNIS-SET')
+                console.log(responseJson.value);
+                props.setUniversitiesForSelectedCountry(responseJson.value);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+  }
 
   function onKeyDown(e) {
     if (e.keyCode === 13) {

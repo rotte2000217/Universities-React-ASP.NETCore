@@ -17,11 +17,18 @@ namespace Universities.Services.University
         {
             this._dbContext = dbContext;
         }
-        public IQueryable<UniversityEntity> GetAll() => this._dbContext.Universities.Include(UsersColumnName);
 
-        public async Task<UniversityEntity> GetByIdAsync(int id) => await this._dbContext.Universities.FirstOrDefaultAsync(x => x.Id == id);
+        public IQueryable<UniversityEntity> GetAll() =>
+            this._dbContext.Universities.Include(UsersColumnName);
 
-        public async Task<UniversityEntity> GetByNameAsync(string name) => await this._dbContext.Universities.FirstOrDefaultAsync(x => x.Name == name);
+        public async Task<UniversityEntity> GetByIdAsync(int id) =>
+            await this._dbContext.Universities.FirstOrDefaultAsync(x => x.Id == id);
+
+        public async Task<UniversityEntity> GetByNameAsync(string name) =>
+            await this._dbContext.Universities.FirstOrDefaultAsync(x => x.Name == name);
+
+        public IEnumerable<UniversityEntity> GetByCountryAsync(string country) =>
+             this._dbContext.Universities.Where(x => x.Country == country);
 
         public List<UniversityEntity> GetRecentlyAddedUniversities(int count)
         {
@@ -42,6 +49,7 @@ namespace Universities.Services.University
             return universities;
         }
 
-        public IEnumerable<string> GetAllCountryNames() => this._dbContext.Universities.Select(x => x.Country).Distinct().AsEnumerable();
+        public IEnumerable<string> GetAllCountryNames() =>
+            this._dbContext.Universities.Select(x => x.Country).Distinct().AsEnumerable();
     }
 }

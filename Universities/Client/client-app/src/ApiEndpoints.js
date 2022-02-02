@@ -5,7 +5,8 @@ const endpoints = {
     homePage: baseURL + 'home',
     loginPage: baseURL + 'identity/login',
     registerPage: baseURL + 'identity/register',
-    getCountries: baseURL + 'search/getcountries'
+    getCountries: baseURL + 'search/getcountries',
+    getUniversitiesByCountry: baseURL + 'search/GetUniversitiesByCountry'
 }
 
 export default endpoints;
