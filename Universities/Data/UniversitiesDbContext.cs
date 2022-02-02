@@ -22,7 +22,8 @@ namespace Universities.Data
         {
             base.OnModelCreating(builder);
 
-            var url = $"http://universities.hipolabs.com/search";
+            // Gets all University records
+            var url =  $"{Endpoints.UniversitiesBaseUrl}/search";
 
             WebRequest request = HttpWebRequest.Create(url);
             WebResponse response = request.GetResponse();
