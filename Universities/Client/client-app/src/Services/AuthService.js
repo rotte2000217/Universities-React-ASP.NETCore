@@ -6,10 +6,16 @@ class AuthService {
     GetToken(){
         localStorage.getItem('token');
     }
+
+    DeleteToken(token){
+        localStorage.removeItem(token);
+    }
+    
     IsUserLoggedIn(){
-        if () {
-            
+        if (localStorage.getItem('token') === null) {
+            return false;
         }
+        return true;
     }
 }
 

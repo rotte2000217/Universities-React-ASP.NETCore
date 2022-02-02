@@ -5,7 +5,7 @@ import "./Styles/Login.css";
 import endpoints from "../ApiEndpoints";
 import authService from "../Services/AuthService";
 
-export default function Login() {
+export default function Login(props) {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [result, setResult] = useState("");
@@ -28,6 +28,7 @@ export default function Login() {
         if(response.statusCode === 200){
             let token = response.value;
             authService.SetToken(token);
+            props.setIsUserLoggedIn("true");
         }
         else{
             setResult(response.value);
@@ -56,7 +57,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button block size="lg" type="submit" disabled={!validateForm()}>
+        <Button size="lg" type="submit" disabled={!validateForm()}>
           Login
         </Button>
       </Form>

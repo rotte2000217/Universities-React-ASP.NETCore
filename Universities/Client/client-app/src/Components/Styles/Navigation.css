@@ -1,0 +1,19 @@
+.nav-button{
+    text-decoration: none;
+}
+
+.nav-button-2{
+    margin-top:0px!important;
+    background: none!important;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-btn{
+    color:red!important;
+}
+
+.auth-btns{
+    float:right;
+    width:100%;
+}

@@ -3,15 +3,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Styles/Register.css";
 import endpoints from "../ApiEndpoints";
+import { useHistory } from "react-router-dom";
 
-export default function Login() {
+export default function Register(props) {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [result, setResult] = useState("");
-
+  let history = useHistory();
+  
   function validateForm() {
-    return userName.length > 0 && password.length > 6 && email.length > 0;
+    return userName.length > 0 && password.length >= 6 && email.length > 0;
   }
 
   function handleSubmit(event) {
@@ -24,14 +26,15 @@ export default function Login() {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(userFormData)
     }).then((response) => {
-        if(!response.ok){
-            throw new Error(response.json());
+        return response.json();
+    })
+    .then((response) => {
+        if(response.statusCode === 200){
+          history.push("/login");
         }
         else{
-            setResult("Successfully created an account!");
+          setResult(response.value);
         }
-    }).catch((e) => {
-        setResult("Something went wrong with creating your account.");
     })
   }
 

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Universities.Controllers
         }
 
         [Route(nameof(Register))]
-        public async Task<IActionResult> Register(RegisterRequestModel model)
+        public async Task<JsonResult> Register(RegisterRequestModel model)
         {
             var user = new User
             {
@@ -42,10 +43,11 @@ namespace Universities.Controllers
 
             if (result.Succeeded)
             {
-                return this.Ok("Successfully created user");
+                return new JsonResult(Ok("Successfully created user"));
             }
 
-            return this.BadRequest(result.Errors);
+            var errors = result.Errors.Select(x => x.Description);
+            return new JsonResult(BadRequest(errors));
         }
 
         [Route(nameof(Login))]
