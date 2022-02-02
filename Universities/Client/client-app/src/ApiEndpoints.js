@@ -4,7 +4,8 @@ const endpoints = {
     baseURL: baseURL,
     homePage: baseURL + 'home',
     loginPage: baseURL + 'identity/login',
-    registerPage: baseURL + 'identity/register'
+    registerPage: baseURL + 'identity/register',
+    getCountries: baseURL + 'search/getcountries'
 }
 
 export default endpoints;

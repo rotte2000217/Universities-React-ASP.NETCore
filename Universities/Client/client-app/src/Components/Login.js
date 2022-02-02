@@ -33,6 +33,9 @@ export default function Login(props) {
         else{
             setResult(response.value);
         }
+    }).catch((e) => {
+      setResult(e.message);
+      console.log(e.status)
     })
   }
 
