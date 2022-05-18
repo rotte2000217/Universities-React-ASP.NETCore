@@ -14,6 +14,7 @@ using Universities.Data.Models;
 using Universities.Extensions;
 using Universities.Services.Identity;
 using Universities.Services.University;
+using Universities.Services.Watchlist;
 
 namespace Universities
 {
@@ -53,6 +54,7 @@ namespace Universities
 
             services.AddTransient<IIdentityServices, IdentityServices>();
             services.AddTransient<IUniversitiesService, UniversitiesService>();
+            services.AddTransient<IWatchlistService, WatchlistService>();
             services.AddControllers();
         }
 

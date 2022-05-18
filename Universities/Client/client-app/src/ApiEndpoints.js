@@ -6,7 +6,9 @@ const endpoints = {
     loginPage: baseURL + 'identity/login',
     registerPage: baseURL + 'identity/register',
     getCountries: baseURL + 'search/getcountries',
-    getUniversitiesByCountry: baseURL + 'search/GetUniversitiesByCountry'
+    getUniversitiesByCountry: baseURL + 'search/GetUniversitiesByCountry',
+    addToWatchlist: baseURL + 'watchlist/Add',
+    getWatchlist: baseURL + 'watchlist/Get'
 }
 
 export default endpoints;

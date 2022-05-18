@@ -34,7 +34,12 @@ export default function Autocomplete(props) {
 
   function setUniverities(country){
         fetch(`${endpoints.getUniversitiesByCountry}?country=${country}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: new Headers(
+              {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${localStorage.getItem('token')}`
+              })
         })
             .then((response) => response.json())
             .then((responseJson) => {

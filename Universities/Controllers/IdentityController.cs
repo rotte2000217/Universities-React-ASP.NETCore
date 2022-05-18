@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Universities.Data.Models;
 using Universities.Models.Identity;
@@ -64,7 +59,7 @@ namespace Universities.Controllers
 
             if (!isPasswordValid)
             {
-                return new JsonResult(Unauthorized("The entered password doesn't correspond with the given username"));
+                return new JsonResult(Unauthorized("Wrong password"));
             }
 
             var encryptedToken = this._identityService.GetEncryptedJWT(user, this._appSettings.Secret);

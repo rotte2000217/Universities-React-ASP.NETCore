@@ -1,7 +1,7 @@
 import './App.css';
 import React,{useEffect, useState} from 'react';
 import Home from './Components/Home'
-import {Watchlist} from './Components/Watchlist'
+import Watchlist from './Components/Watchlist'
 import Navigation from './Components/Navigation'
 import Login from './Components/Login'
 import Register from './Components/Register'
@@ -10,22 +10,50 @@ import endpoints from "./ApiEndpoints"
 
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 
+
 function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState((localStorage.getItem('token') === null) ? 'false' : 'true');
   const [wordsSuggestions, setWordsSuggestions] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [universitiesForSelectedCountry, setUniversitiesForSelectedCountry] = useState([]);
+  const [watchlist, setWatchlist] = useState([]);
 
   useEffect(async() => {
       const array = await getWords();
       const wordsData = array.value;
       await setWordsSuggestions(wordsData);
+      getWatchlist();
   }, []);
 
+  function getWatchlist(){
+    fetch(endpoints.getWatchlist, {
+        method: 'GET',
+        headers: new Headers(
+        {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        })
+    })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setWatchlist(responseJson);
+            return responseJson;
+        })
+        .catch((error) => {
+            alert('error');
+          console.log(error);
+        });
+}
+  
   const getWords = async () => {
     const url = endpoints.getCountries;
     const res = await fetch(url, {
-      method: "GET"
+      method: "GET",
+      headers: new Headers(
+        {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        })
     });
     return await res.json();
   };
@@ -42,11 +70,11 @@ function App() {
         isUserLoggedIn === "true"
         ? (<>
           <Autocomplete universitiesForSelectedCountry={universitiesForSelectedCountry} setUniversitiesForSelectedCountry={setUniversitiesForSelectedCountry} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} wordsSuggestions={wordsSuggestions}/>
-          <Home universitiesForSelectedCountry={universitiesForSelectedCountry} setUniversitiesForSelectedCountry={setUniversitiesForSelectedCountry} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
+          <Home setWatchlist={setWatchlist} universitiesForSelectedCountry={universitiesForSelectedCountry} setUniversitiesForSelectedCountry={setUniversitiesForSelectedCountry} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
           </>)
         : (<Redirect to="/login" />)}/>
 
-      <Route path='/watchlist' component={Watchlist}/>
+      <Route path='/watchlist' render={() => <Watchlist watchlist={watchlist}/>}/>
 
       <Route path='/login'
         render={() =>

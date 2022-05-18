@@ -37,8 +37,8 @@ export default function Home(props){
                 <div>
                     {
                         (selectedCountry === "")
-                        ? <RecentlyAddedUniversities universities={universities}/>
-                        : <SelectedCountryUniversities selectedUniversities={selectedUniversities} selectedCountry={selectedCountry} />
+                        ? <RecentlyAddedUniversities setWatchlist={props.setWatchlist} universities={universities}/>
+                        : <SelectedCountryUniversities setWatchlist={props.setWatchlist} selectedUniversities={selectedUniversities} selectedCountry={selectedCountry} />
                     }
                     {/* <p>
                         {selectedCountry}
