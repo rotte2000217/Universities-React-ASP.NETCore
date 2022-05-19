@@ -8,7 +8,8 @@ const endpoints = {
     getCountries: baseURL + 'search/getcountries',
     getUniversitiesByCountry: baseURL + 'search/GetUniversitiesByCountry',
     addToWatchlist: baseURL + 'watchlist/Add',
-    getWatchlist: baseURL + 'watchlist/Get'
+    getWatchlist: baseURL + 'watchlist/Get',
+    exportWatchlist: baseURL + 'watchlist/Export'
 }
 
 export default endpoints;

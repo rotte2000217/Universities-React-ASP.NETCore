@@ -1,0 +1,15 @@
+.export-btn{
+    width: 115px;
+    border-radius: 39px;
+    border: none;
+    height: 43px;
+    font-family: revert;
+    font-weight: 800;
+    background-color: #212529;
+    color: deepskyblue;
+}
+
+.export-container {  
+    display: flex;  
+    justify-content: center;  
+    } 
