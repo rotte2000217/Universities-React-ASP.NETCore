@@ -9,17 +9,17 @@ export default function Watchlist(props) {
             method: 'GET',
             headers: new Headers(
             {
-                "Content-Type": "application/json",
+                "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 "Authorization": `Bearer ${localStorage.getItem('token')}`
             })
         })
             .then((response) => response.blob())
             .then(function(myBlob) {
-                var objectURL = URL.createObjectURL(myBlob);
+                var objectURL = URL.createObjectURL(myBlob); 
 
                 let downloadLink = document.createElement('a');
                 downloadLink.href = objectURL;
-                downloadLink.setAttribute('download', "Watchlist.txt");
+                downloadLink.setAttribute('download', "Watchlist.xlsx");
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 downloadLink.remove();

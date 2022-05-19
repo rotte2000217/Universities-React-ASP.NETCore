@@ -12,6 +12,7 @@ using Universities.Authentication;
 using Universities.Data;
 using Universities.Data.Models;
 using Universities.Extensions;
+using Universities.Services.ExcelService;
 using Universities.Services.Identity;
 using Universities.Services.University;
 using Universities.Services.Watchlist;
@@ -55,6 +56,7 @@ namespace Universities
             services.AddTransient<IIdentityServices, IdentityServices>();
             services.AddTransient<IUniversitiesService, UniversitiesService>();
             services.AddTransient<IWatchlistService, WatchlistService>();
+            services.AddTransient<IExcelService, ExcelService>();
             services.AddControllers();
         }
 

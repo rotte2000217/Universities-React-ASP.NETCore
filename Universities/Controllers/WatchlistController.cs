@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Universities.Extensions;
 using Universities.Models;
+using Universities.Services.ExcelService;
 using Universities.Services.Watchlist;
 
 namespace Universities.Controllers
@@ -16,10 +12,12 @@ namespace Universities.Controllers
     public class WatchlistController : ApiController
     {
         private readonly IWatchlistService _watchlistService;
+        private readonly IExcelService _excelService;
 
-        public WatchlistController(IWatchlistService watchlistService)
+        public WatchlistController(IWatchlistService watchlistService, IExcelService excelService)
         {
             this._watchlistService = watchlistService;
+            this._excelService = excelService;
         }
 
         [Authorize]
@@ -27,7 +25,7 @@ namespace Universities.Controllers
         public async Task<JsonResult> Add([FromBody]int universityId)
         {
             var userId = this.User.GetId();
-            var result = await this._watchlistService.AddToWatchlist(userId, universityId);
+            var result = await _watchlistService.AddToWatchlist(userId, universityId);
             return new JsonResult(result);
         }
 
@@ -36,9 +34,7 @@ namespace Universities.Controllers
         public JsonResult Get()
         {
             var userId = this.User.GetId();
-            var universities = this._watchlistService.GetWatchlist(userId);
-
-            //var result = JsonSerializer.Serialize(universities);
+            var universities = _watchlistService.GetWatchlist(userId);
 
             return new JsonResult(universities);
         }
@@ -47,27 +43,14 @@ namespace Universities.Controllers
         [Route("Export")]
         public FileContentResult Export()
         {
-            var lines = new List<string>();
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
             var userId = this.User.GetId();
-            var universities = this._watchlistService.GetWatchlist(userId);
+            var universities = _watchlistService.GetWatchlist(userId);
 
-            IEnumerable<PropertyDescriptor> props = TypeDescriptor.GetProperties(typeof(UniversityEntityModel)).OfType<PropertyDescriptor>();
-            var header = string.Join(",", props.ToList().Select(x => x.Name));
-            lines.Add(header);
-            var valueLines = universities.Select(row => string.Join(",", header.Split(',').Select(a => row.GetType().GetProperty(a).GetValue(row, null))));
-            lines.AddRange(valueLines);
+            var memoryStreamArray = _excelService.GetExcelFileContent<UniversityEntityModel>(universities.ToList(), "Universities");
 
-            MemoryStream memoryStream = new MemoryStream();
-            TextWriter tw = new StreamWriter(memoryStream);
-
-            foreach (var line in lines)
-            {
-                tw.WriteLine(line);
-            }
-            tw.Flush();
-            tw.Close();
-
-            var file = File(memoryStream.GetBuffer(), "text/plain");
+            var file = File(memoryStreamArray, contentType, "Watchlist.xlsx");
 
             return file;
         }
