@@ -105,6 +105,7 @@ export default function Autocomplete(props) {
           <input
             id="country-input"
             className="input-auto"
+            autoComplete="off"
             placeholder="Search for country.."
             type="text"
             onChange={onChange}

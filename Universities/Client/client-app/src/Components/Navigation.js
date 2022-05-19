@@ -7,6 +7,7 @@ export default function Navigation(props){
     function handleLogout(){
         localStorage.removeItem('token');
         props.setIsUserLoggedIn("false");
+        window.location.reload(false);
 }
         return(
             <Navbar bg="dark" expand="xl">

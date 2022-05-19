@@ -29,6 +29,8 @@ export default function Login(props) {
             let token = response.value;
             authService.SetToken(token);
             props.setIsUserLoggedIn("true");
+
+            window.location.reload(false);
         }
         else{
             setResult(response.value);
