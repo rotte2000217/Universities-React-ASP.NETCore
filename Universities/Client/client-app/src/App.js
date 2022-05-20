@@ -74,7 +74,13 @@ function App() {
           </>)
         : (<Redirect to="/login" />)}/>
 
-      <Route path='/watchlist' render={() => <Watchlist watchlist={watchlist}/>}/>
+       <Route path='/watchlist' exact 
+      render={() =>
+        isUserLoggedIn === "true"
+        ? (<>
+          <Watchlist watchlist={watchlist}/>
+          </>)
+        : (<Redirect to="/login" />)}/>
 
       <Route path='/login'
         render={() =>

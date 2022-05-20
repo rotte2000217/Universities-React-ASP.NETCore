@@ -17,9 +17,13 @@ export default function Navigation(props){
                         <NavLink className="d-inline p-2 bg-dark text-white nav-button" to="/">
                             Home
                         </NavLink>
-                        <NavLink className="d-inline p-2 bg-dark text-white nav-button" to="/watchlist">
+
+                        {props.isUserLoggedIn === 'true' &&
+                         <NavLink className="d-inline p-2 bg-dark text-white nav-button" to="/watchlist">
                             Watchlist
-                        </NavLink>
+                          </NavLink>
+                        }
+
                         {
                                 props.isUserLoggedIn === 'true'
                             ?
