@@ -8,7 +8,6 @@ import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 library.add(faBookmark);
 
 export default function RecentlyAddedUniversities(props) {
-
     function addToWatchlist(universityId){
         fetch(endpoints.addToWatchlist, {
             method: 'POST',
@@ -34,7 +33,7 @@ export default function RecentlyAddedUniversities(props) {
             <h3 className='h3-recent'>
                 Recently added universities:
             </h3>
-            <Table striped bordered hover>
+            <Table bordered hover>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -49,12 +48,12 @@ export default function RecentlyAddedUniversities(props) {
                     {
                     props.universities.map(x => {
                         return(
-                            <tr>
+                            <tr className={`${x.isWatchlisted ? "watchlisted" : ""}`}>
                                 <td>{x.id}</td>
                                 <td>{x.name}</td>
                                 <td>{x.alphaTwoCode}</td>
                                 <td>{x.country}</td>
-                                <td>{x.webPage}</td>
+                                <td><a href={`${x.webPage}`}>{x.webPage}</a></td>
                                 <button className="watchlist-btn" onClick={() => addToWatchlist(x.id)}><FontAwesomeIcon icon="bookmark" /></button>
                             </tr>
                         )})

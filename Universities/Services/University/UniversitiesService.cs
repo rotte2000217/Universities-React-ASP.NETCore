@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Universities.Data;
 using Universities.Data.Models;
+using Universities.Models;
 
 namespace Universities.Services.University
 {
@@ -27,10 +28,17 @@ namespace Universities.Services.University
         public async Task<UniversityEntity> GetByNameAsync(string name) =>
             await this._dbContext.Universities.FirstOrDefaultAsync(x => x.Name == name);
 
-        public IEnumerable<UniversityEntity> GetByCountryAsync(string country) =>
-             this._dbContext.Universities.Where(x => x.Country == country);
+        public IEnumerable<UniversityEntityModel> GetByCountryAsync(string country, string userId)
+        {
+            return this._dbContext
+                .Universities
+                .Where(x => x.Country == country)
+                .Include(x => x.Users)
+                .Select(x => new UniversityEntityModel(x, userId));
+        }
+             
 
-        public List<UniversityEntity> GetRecentlyAddedUniversities(int count)
+        public List<UniversityEntityModel> GetRecentlyAddedUniversities(string userId, int count)
         {
             count = count >= 10 ? 10 : count;
 
@@ -38,12 +46,14 @@ namespace Universities.Services.University
 
             if (universitiesCount == 0 || universitiesCount < count)
             {
-                return new List<UniversityEntity>();
+                return new List<UniversityEntityModel>();
             }
 
             var universities = this._dbContext.Universities
                 .OrderByDescending(x => x.Id)
                 .Take(count)
+                .Include(x => x.Users)
+                .Select(x => new UniversityEntityModel(x, userId))
                 .ToList();
 
             return universities;

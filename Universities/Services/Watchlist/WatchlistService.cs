@@ -83,7 +83,8 @@ namespace Universities.Services.Watchlist
                    StateProvince = x.StateProvince,
                    AlphaTwoCode = x.AlphaTwoCode,
                    Country = x.Country,
-                   WebPage = x.WebPage
+                   WebPage = x.WebPage,
+                   IsWatchlisted = true,
                })
                .ToList();
 

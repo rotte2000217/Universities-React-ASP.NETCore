@@ -35,7 +35,7 @@ export default function Watchlist(props) {
             <button className="export-btn" onClick={Export}>Download</button>
         </div>
           <div className='mt-5 d-flex justify-content-left'>
-          <Table striped bordered hover>
+          <Table bordered hover>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -55,7 +55,7 @@ export default function Watchlist(props) {
                                     <td>{x.name}</td>
                                     <td>{x.alphaTwoCode}</td>
                                     <td>{x.country}</td>
-                                    <td>{x.webPage}</td>
+                                    <td><a href={`${x.webPage}`}>{x.webPage}</a></td>
                                 </tr>
                             </>
                         )})

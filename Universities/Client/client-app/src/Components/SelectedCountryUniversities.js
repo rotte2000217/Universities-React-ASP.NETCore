@@ -34,7 +34,7 @@ export default function SelectedCountryUniversities(props) {
             <h3 className='h3-recent'>
                 Universities in {props.selectedCountry}:
             </h3>
-            <Table striped bordered hover>
+            <Table bordered hover>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -49,12 +49,12 @@ export default function SelectedCountryUniversities(props) {
                     {
                     props.selectedUniversities.map(x => {
                         return(
-                            <tr>
+                            <tr className={`${x.isWatchlisted ? "watchlisted" : ""}`}>
                                 <td>{x.id}</td>
                                 <td>{x.name}</td>
                                 <td>{x.alphaTwoCode}</td>
                                 <td>{x.country}</td>
-                                <td>{x.webPage}</td>
+                                <td><a href={`${x.webPage}`}>{x.webPage}</a></td>
                                 <button className="watchlist-btn" onClick={() => addToWatchlist(x.id)}><FontAwesomeIcon icon="bookmark" /></button>
                             </tr>
                         )})

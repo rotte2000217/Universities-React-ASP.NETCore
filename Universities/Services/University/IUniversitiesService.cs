@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Universities.Data.Models;
+using Universities.Models;
 
 namespace Universities.Services.University
 {
@@ -13,14 +14,14 @@ namespace Universities.Services.University
 
         public Task<UniversityEntity> GetByNameAsync(string name);
 
-        public IEnumerable<UniversityEntity> GetByCountryAsync(string country);
+        public IEnumerable<UniversityEntityModel> GetByCountryAsync(string country, string userId);
 
         /// <summary>
         /// Gets recently added universities by specified count (Max 10).
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public List<UniversityEntity> GetRecentlyAddedUniversities(int count);
+        public List<UniversityEntityModel> GetRecentlyAddedUniversities(string userId, int count);
 
         public IEnumerable<string> GetAllCountryNames();
     }

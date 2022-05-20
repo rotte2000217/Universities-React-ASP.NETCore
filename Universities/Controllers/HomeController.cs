@@ -17,8 +17,8 @@ namespace Universities.Controllers
         [Authorize]
         public JsonResult Get()
         {
-            var recentUnis = this._universitiesService.GetRecentlyAddedUniversities(10);
             var userId = this.User.GetId();
+            var recentUnis = this._universitiesService.GetRecentlyAddedUniversities(userId, 10);
 
             return new JsonResult(recentUnis);
         }

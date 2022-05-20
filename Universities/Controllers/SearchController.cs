@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Universities.Extensions;
 using Universities.Services.University;
 
 namespace Universities.Controllers
@@ -31,9 +32,10 @@ namespace Universities.Controllers
         [Route(nameof(GetUniversitiesByCountry))]
         public JsonResult GetUniversitiesByCountry(string country)
         {
+            var userId = this.User.GetId();
             try
             {
-                var universities = this._universityServices.GetByCountryAsync(country);
+                var universities = this._universityServices.GetByCountryAsync(country, userId);
                 return new JsonResult(Ok(universities));
             }
             catch (System.Exception e)
